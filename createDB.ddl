@@ -1,4 +1,3 @@
-
 -- ユーザテーブル
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
