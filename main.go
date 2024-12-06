@@ -1,12 +1,14 @@
 package main
 
 import (
+	"RenomachiBack/db"
 	"RenomachiBack/handlers"
 	"fmt"
 	"net/http"
 )
 
 func main() {
+	db.InitDB()
 
 	http.HandleFunc("/users", handlers.HandleUsers)
 	http.HandleFunc("/users/", handlers.HandleUser)
