@@ -1,4 +1,4 @@
--- ユーザテーブル
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
     user_id VARCHAR(255) NOT NULL UNIQUE,  -- ユーザID（ユニーク制約付き）
@@ -7,7 +7,6 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE     -- メールアドレス（ユニーク制約付き）
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 空き家テーブル
 CREATE TABLE buildings (
     id INT AUTO_INCREMENT PRIMARY KEY, -- インデックス、主キー、自動増分
     building_id VARCHAR(255) NOT NULL UNIQUE, -- 建物固有のID
@@ -20,9 +19,10 @@ CREATE TABLE buildings (
     description TEXT DEFAULT NULL,    -- 建物説明（テキスト型、NULL許容）
     is_available BOOLEAN NOT NULL DEFAULT TRUE, -- 募集中かどうか（デフォルトはTRUE）
     price INT DEFAULT NULL            -- 値段（NULL許容）
+    favorites INT DEFAULT NULL, --お気に入り数
+    transportation TEXT DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- お気に入りテーブル
 CREATE TABLE favorites (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
     user_id VARCHAR(255) NOT NULL,         -- ユーザID
@@ -31,8 +31,7 @@ CREATE TABLE favorites (
     FOREIGN KEY (building_id) REFERENCES buildings(building_id) ON DELETE CASCADE ON UPDATE CASCADE -- 外部キー: 空き家テーブル
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 履歴テーブル
-CREATE TABLE history (
+CREATE TABLE histories (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
     user_id VARCHAR(255) NOT NULL,         -- ユーザID
     building_id VARCHAR(255) NOT NULL,     -- 建物固有のID
