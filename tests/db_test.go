@@ -116,7 +116,7 @@ func TestBuildingModel(t *testing.T) {
 
 	// 2. 建物更新テスト
 	t.Run("UpdateBuilding", func(t *testing.T) {
-		user := &models.Building{
+		building := &models.Building{
 			ID:             1,
 			BID:            "TESTED",
 			Address:        "TESTED",
@@ -132,7 +132,7 @@ func TestBuildingModel(t *testing.T) {
 			Transportation: "TESTED",
 		}
 
-		err := user.UpdateBuilding()
+		err := building.UpdateBuilding()
 		if err != nil {
 			t.Fatalf("建物編集に失敗: %v", err)
 		}
@@ -142,11 +142,11 @@ func TestBuildingModel(t *testing.T) {
 
 	// 3. 建物削除テスト
 	t.Run("DeleteBuilding", func(t *testing.T) {
-		user := &models.Building{
+		building := &models.Building{
 			ID: 2, // 適宜、テスト環境に合わせたIDを設定
 		}
 
-		err := user.DeleteBuilding()
+		err := building.DeleteBuilding()
 		if err != nil {
 			t.Fatalf("建物削除に失敗: %v", err)
 		}
@@ -242,6 +242,73 @@ func TestFavoriteModel(t *testing.T) {
 			t.Log("お気に入りは0でした")
 		} else {
 			t.Logf("建物お気に入り数の取得に成功: %v", count)
+		}
+	})
+}
+
+func TestHistoryModel(t *testing.T) {
+	// データベース接続を初期化
+	db.InitDB()
+	defer db.DB.Close()
+
+	// 1. 履歴追加テスト
+	t.Run("AddBuilding", func(t *testing.T) {
+		history := &models.History{
+			UID: "root",
+			BID: "TEST3",
+		}
+
+		err := history.AddHistory()
+		if err != nil {
+			t.Fatalf("履歴追加に失敗: %v", err)
+		}
+
+		// IDがセットされているか確認
+		if history.ID == 0 {
+			t.Fatalf("履歴IDがセットされていません: %d", history.ID)
+		}
+
+		t.Logf("履歴追加に成功 ID: %d", history.ID)
+	})
+
+	// 2. 履歴削除テスト
+	t.Run("DeleteHistory", func(t *testing.T) {
+		history := &models.History{
+			ID: 1, // 適宜、テスト環境に合わせたIDを設定
+		}
+
+		err := history.DeleteHistory()
+		if err != nil {
+			t.Fatalf("履歴削除に失敗: %v", err)
+		}
+
+		t.Log("履歴削除に成功")
+	})
+
+	// 3. 履歴一覧取得テスト
+	t.Run("GetHistories", func(t *testing.T) {
+		histories, err := models.GetHistories()
+		if err != nil {
+			t.Fatalf("履歴一覧の取得に失敗: %v", err)
+		}
+
+		if len(histories) == 0 {
+			t.Log("履歴が見つかりませんでした")
+		} else {
+			t.Logf("履歴一覧に取得に成功: %v", histories)
+		}
+	})
+
+	// 4. ユーザごとの履歴取得テスト
+	t.Run("GetHistoriesByUser", func(t *testing.T) {
+		histories, err := models.GetHistoriesByUserID("root")
+		if err != nil {
+			t.Fatalf("ユーザIDによる履歴一覧の取得に失敗: %v", err)
+		}
+		if len(histories) == 0 {
+			t.Log("履歴はありませんでした")
+		} else {
+			t.Logf("ユーザIDによる履歴一覧の取得に成功: %v", histories)
 		}
 	})
 }
