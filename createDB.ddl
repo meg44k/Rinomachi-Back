@@ -31,7 +31,7 @@ CREATE TABLE favorites (
     FOREIGN KEY (building_id) REFERENCES buildings(building_id) ON DELETE CASCADE ON UPDATE CASCADE -- 外部キー: 空き家テーブル
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE history (
+CREATE TABLE histories (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
     user_id VARCHAR(255) NOT NULL,         -- ユーザID
     building_id VARCHAR(255) NOT NULL,     -- 建物固有のID
