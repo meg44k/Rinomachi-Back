@@ -38,12 +38,18 @@ func HandleBuildings(w http.ResponseWriter, r *http.Request) {
 
 func HandleBuilding(w http.ResponseWriter, r *http.Request) {
 	utils.PrintRequest(r)
-	switch r.Method {
-	case http.MethodGet:
-		utils.TestResponseOK(w, r)
-	case http.MethodPost:
-		utils.TestResponseOK(w, r)
-	default:
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	params := utils.GetRouteParams(r)
+	if len(params) < 2 {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	} else if len(params) == 2 {
+		switch r.Method {
+		case http.MethodGet:
+			utils.TestResponseOK(w, r)
+		case http.MethodPost:
+			utils.TestResponseOK(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
 	}
 }
