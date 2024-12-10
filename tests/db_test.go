@@ -195,10 +195,12 @@ func TestFavoriteModel(t *testing.T) {
 	// 2. 建物削除テスト
 	t.Run("DeleteFavorite", func(t *testing.T) {
 		favorite := &models.Favorite{
-			ID: 1, // 適宜、テスト環境に合わせたIDを設定
+			ID:  1, // 適宜、テスト環境に合わせたIDを設定
+			UID: "root",
+			BID: "root",
 		}
 
-		err := favorite.DeleteFavorite()
+		err := models.DeleteFavorite(favorite.UID, favorite.BID)
 		if err != nil {
 			t.Fatalf("お気に入り削除に失敗: %v", err)
 		}
@@ -286,7 +288,8 @@ func TestHistoryModel(t *testing.T) {
 
 	// 3. 履歴一覧取得テスト
 	t.Run("GetHistories", func(t *testing.T) {
-		histories, err := models.GetHistories()
+		user_id := "root"
+		histories, err := models.GetHistories(user_id)
 		if err != nil {
 			t.Fatalf("履歴一覧の取得に失敗: %v", err)
 		}
