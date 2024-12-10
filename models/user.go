@@ -31,9 +31,9 @@ func (user *User) AddUser() error {
 }
 
 // ユーザを編集
-func (user *User) UpdateUser() error {
-	query := "UPDATE users SET user_name = ?, password = ?, email = ? WHERE id = ?"
-	_, err := db.DB.Exec(query, user.Name, user.Password, user.Email, user.ID)
+func UpdateUser(user *User, user_id string) error {
+	query := "UPDATE users SET user_name = ?, password = ?, email = ? WHERE user_id = ?"
+	_, err := db.DB.Exec(query, user.Name, user.Password, user.Email, user.UID)
 	return err
 }
 
