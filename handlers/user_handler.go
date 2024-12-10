@@ -105,7 +105,6 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 						http.Error(w, "Failed to insert favorite: "+err.Error(), http.StatusInternalServerError)
 						return
 					}
-
 					err = favorite.AddFavorite()
 					if err != nil {
 						http.Error(w, "Failed to insert favorite: "+err.Error(), http.StatusInternalServerError)
@@ -117,8 +116,14 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 				}
 			} else if len(params) < 5 {
 				switch r.Method {
+				// DELETEメソッド
 				case http.MethodDelete:
-					utils.TestResponseOK(w, r)
+					err := models.DeleteFavorite(params[1], params[3])
+					if err != nil {
+						http.Error(w, "Failed to delete favorites", http.StatusInternalServerError)
+						return
+					}
+					utils.ResponseDeleted(w, params[3])
 				default:
 					http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 				}
