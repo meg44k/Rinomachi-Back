@@ -208,7 +208,8 @@ func TestFavoriteModel(t *testing.T) {
 
 	// 3. お気に入り覧取得テスト
 	t.Run("GetFavorites", func(t *testing.T) {
-		favorites, err := models.GetFavorites()
+		user_id := "root"
+		favorites, err := models.GetFavorites(user_id)
 		if err != nil {
 			t.Fatalf("お気に入り一覧の取得に失敗: %v", err)
 		}
@@ -220,7 +221,7 @@ func TestFavoriteModel(t *testing.T) {
 	})
 
 	t.Run("GetFavoritesByUser", func(t *testing.T) {
-		favorites, err := models.GetFavoritesByUserID("root")
+		favorites, err := models.GetFavorites("root")
 		if err != nil {
 			t.Fatalf("ユーザIDによるお気に入り一覧の取得に失敗: %v", err)
 		}
