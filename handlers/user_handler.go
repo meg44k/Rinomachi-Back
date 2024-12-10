@@ -66,12 +66,12 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 			var user models.User
 			err := json.NewDecoder(r.Body).Decode(&user)
 			if err != nil {
-				http.Error(w, "Failed to insert user: "+err.Error(), http.StatusInternalServerError)
+				http.Error(w, "Failed to update user: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			err = models.UpdateUser(&user, params[1])
 			if err != nil {
-				http.Error(w, "Failed to insert user: "+err.Error(), http.StatusInternalServerError)
+				http.Error(w, "Failed to update user: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			utils.ResponseUpdated(w, user)
