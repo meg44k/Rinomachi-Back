@@ -21,7 +21,7 @@ func TestResponseOK(w http.ResponseWriter, r *http.Request) {
 }
 func ResponseCreated(w http.ResponseWriter, r *http.Request) {
 	response := fmt.Sprintf("%s requested!\n", r.URL.String())
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(response))
 }
