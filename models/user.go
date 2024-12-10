@@ -1,6 +1,9 @@
 package models
 
-import "RenomachiBack/db"
+import (
+	"RenomachiBack/db"
+	"database/sql"
+)
 
 type User struct {
 	ID       int    `json:"id"`
@@ -59,4 +62,21 @@ func GetUsers() ([]User, error) {
 		users = append(users, user)
 	}
 	return users, nil
+}
+
+// UIDによるユーザを取得
+func GetUserByUserID(user_id string) (*User, error) {
+	query := "SELECT id, user_id, user_name, password, email FROM users WHERE user_id = ?"
+	row := db.DB.QueryRow(query, user_id)
+
+	var user User
+	err := row.Scan(&user.ID, &user.UID, &user.Name, &user.Password, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // 該当するユーザーがいない場合
+		}
+		return nil, err // その他のエラー
+	}
+
+	return &user, nil
 }
