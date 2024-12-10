@@ -32,28 +32,8 @@ func (favorite *Favorite) DeleteFavorite() error {
 	return err
 }
 
-// お気に入り一覧を表示
-func GetFavorites() ([]Favorite, error) {
-	query := "SELECT * FROM favorites"
-	rows, err := db.DB.Query(query)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var favorites []Favorite
-	for rows.Next() {
-		var favorite Favorite
-		if err := rows.Scan(&favorite.ID, &favorite.UID, &favorite.BID); err != nil {
-			return nil, err
-		}
-		favorites = append(favorites, favorite)
-	}
-	return favorites, nil
-}
-
 // UIDのお気に入り一覧を表示
-func GetFavoritesByUserID(user_id string) ([]Favorite, error) {
+func GetFavorites(user_id string) ([]Favorite, error) {
 	query := "SELECT * FROM favorites WHERE user_id = ?"
 	rows, err := db.DB.Query(query, user_id)
 	if err != nil {
