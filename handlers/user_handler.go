@@ -4,6 +4,7 @@ import (
 	"RenomachiBack/models"
 	"RenomachiBack/utils"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -56,7 +57,13 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 			}
 			utils.JSONResponse(w, user, http.StatusOK)
 		case http.MethodDelete:
-			utils.TestResponseOK(w, r)
+			err := models.DeleteUser(params[1])
+			if err != nil {
+				http.Error(w, "Failed to delete user", http.StatusInternalServerError)
+				return
+			}
+			utils.ResponseDeleted(w, params[1])
+			fmt.Println(err)
 		default:
 			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		}
