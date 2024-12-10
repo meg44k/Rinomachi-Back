@@ -97,8 +97,21 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 						return
 					}
 					utils.JSONResponse(w, favorites, http.StatusOK)
+				// POSTメソッド
 				case http.MethodPost:
-					utils.TestResponseOK(w, r)
+					var favorite models.Favorite
+					err := json.NewDecoder(r.Body).Decode(&favorite)
+					if err != nil {
+						http.Error(w, "Failed to insert favorite: "+err.Error(), http.StatusInternalServerError)
+						return
+					}
+
+					err = favorite.AddFavorite()
+					if err != nil {
+						http.Error(w, "Failed to insert favorite: "+err.Error(), http.StatusInternalServerError)
+						return
+					}
+					utils.ResponseCreated(w, favorite)
 				default:
 					http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 				}
