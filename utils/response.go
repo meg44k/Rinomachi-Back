@@ -29,3 +29,13 @@ func ResponseCreated(w http.ResponseWriter, user interface{}) {
 	w.WriteHeader(http.StatusCreated) // HTTPステータス201を設定
 	json.NewEncoder(w).Encode(response)
 }
+
+func ResponseDeleted(w http.ResponseWriter, user_id string) {
+	response := map[string]interface{}{
+		"message": "User deleted successfully",
+		"user_id": user_id, // 削除されたユーザー情報を返す
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK) // HTTPステータス200を設定
+	json.NewEncoder(w).Encode(response)
+}
