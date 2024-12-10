@@ -275,10 +275,12 @@ func TestHistoryModel(t *testing.T) {
 	// 2. 履歴削除テスト
 	t.Run("DeleteHistory", func(t *testing.T) {
 		history := &models.History{
-			ID: 1, // 適宜、テスト環境に合わせたIDを設定
+			ID:  1, // 適宜、テスト環境に合わせたIDを設定
+			UID: "root",
+			BID: "root",
 		}
 
-		err := history.DeleteHistory()
+		err := models.DeleteHistory(history.UID, history.BID)
 		if err != nil {
 			t.Fatalf("履歴削除に失敗: %v", err)
 		}

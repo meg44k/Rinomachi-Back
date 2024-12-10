@@ -30,9 +30,9 @@ func (history *History) AddHistory() error {
 }
 
 // 履歴を削除
-func (history *History) DeleteHistory() error {
-	query := "DELETE FROM histories WHERE id = ?"
-	_, err := db.DB.Exec(query, history.ID)
+func DeleteHistory(user_id string, building_id string) error {
+	query := "DELETE FROM histories WHERE user_id = ? AND building_id"
+	_, err := db.DB.Exec(query, user_id, building_id)
 	return err
 }
 
