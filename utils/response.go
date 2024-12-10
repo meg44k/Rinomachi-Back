@@ -39,3 +39,13 @@ func ResponseDeleted(w http.ResponseWriter, user_id string) {
 	w.WriteHeader(http.StatusOK) // HTTPステータス200を設定
 	json.NewEncoder(w).Encode(response)
 }
+
+func ResponseUpdated(w http.ResponseWriter, user interface{}) {
+	response := map[string]interface{}{
+		"message": "User updated successfully",
+		"user":    user, // 作成されたユーザー情報を返す
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated) // HTTPステータス201を設定
+	json.NewEncoder(w).Encode(response)
+}
