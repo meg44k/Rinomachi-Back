@@ -20,30 +20,30 @@ func TestResponseOK(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(response))
 }
 
-func ResponseCreated(w http.ResponseWriter, user interface{}) {
+func ResponseCreated(w http.ResponseWriter, data interface{}) {
 	response := map[string]interface{}{
 		"message": "User created successfully",
-		"user":    user, // 作成されたユーザー情報を返す
+		"data":    data, // 作成されたユーザー情報を返す
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated) // HTTPステータス201を設定
 	json.NewEncoder(w).Encode(response)
 }
 
-func ResponseDeleted(w http.ResponseWriter, user_id string) {
+func ResponseDeleted(w http.ResponseWriter, data string) {
 	response := map[string]interface{}{
 		"message": "User deleted successfully",
-		"user_id": user_id, // 削除されたユーザー情報を返す
+		"data":    data, // 削除されたユーザー情報を返す
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK) // HTTPステータス200を設定
 	json.NewEncoder(w).Encode(response)
 }
 
-func ResponseUpdated(w http.ResponseWriter, user interface{}) {
+func ResponseUpdated(w http.ResponseWriter, data interface{}) {
 	response := map[string]interface{}{
 		"message": "User updated successfully",
-		"user":    user, // 作成されたユーザー情報を返す
+		"data":    data, // 作成されたユーザー情報を返す
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated) // HTTPステータス201を設定
