@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"RenomachiBack/models"
 	"RenomachiBack/utils"
 	"net/http"
 )
@@ -9,7 +10,12 @@ func HandleUsers(w http.ResponseWriter, r *http.Request) {
 	utils.PrintRequest(r)
 	switch r.Method {
 	case http.MethodGet:
-		utils.TestResponseOK(w, r)
+		users, err := models.GetUsers()
+		if err != nil {
+			http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
+			return
+		}
+		utils.JSONResponse(w, users, 200)
 	case http.MethodPost:
 		utils.TestResponseOK(w, r)
 	default:
@@ -30,7 +36,7 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 	} else if len(params) == 2 {
 		switch r.Method {
 		case http.MethodGet:
-			utils.TestResponseOK(w, r)
+
 		case http.MethodDelete:
 			utils.TestResponseOK(w, r)
 		default:
