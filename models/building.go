@@ -3,19 +3,19 @@ package models
 import "RenomachiBack/db"
 
 type Building struct {
-	ID             int
-	BID            string
-	Address        string
-	Structure      string
-	Floors         int
-	Age            int
-	Area           float64
-	Contract       string
-	Description    string
-	IsAvailable    bool
-	Price          int
-	Favorites      int
-	Transportation string
+	ID             int     `json:"id"`
+	BID            string  `json:"bid"`
+	Address        string  `json:"address"`
+	Structure      string  `json:"structure"`
+	Floors         int     `json:"floors"`
+	Age            int     `json:"age"`
+	Area           float64 `json:"area"`
+	Contract       string  `json:"contract"`
+	Description    string  `json:"discription"`
+	IsAvailable    bool    `json:"isAvailable"`
+	Price          int     `json:"price"`
+	Favorites      int     `json:"favorites"`
+	Transportation string  `json:"transportation"`
 }
 
 // ユーザを追加

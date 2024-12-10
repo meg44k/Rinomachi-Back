@@ -6,10 +6,10 @@ import (
 )
 
 type History struct {
-	ID   int
-	UID  string
-	BID  string
-	Time time.Time
+	ID   int       `json:"id"`
+	UID  string    `json:"uid"`
+	BID  string    `json:"bid"`
+	Time time.Time `json:"time"`
 }
 
 // 履歴を追加

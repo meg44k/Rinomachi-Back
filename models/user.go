@@ -3,11 +3,11 @@ package models
 import "RenomachiBack/db"
 
 type User struct {
-	ID       int
-	UID      string
-	Name     string
-	Password string
-	Email    string
+	ID       int    `json:"id"`
+	UID      string `json:"uid"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 // ユーザを追加

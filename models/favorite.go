@@ -3,9 +3,9 @@ package models
 import "RenomachiBack/db"
 
 type Favorite struct {
-	ID  int
-	UID string
-	BID string
+	ID  int    `json:"id"`
+	UID string `json:"uid"`
+	BID string `json:"bid"`
 }
 
 // お気に入りを追加
