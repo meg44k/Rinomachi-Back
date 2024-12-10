@@ -16,7 +16,7 @@ func HandleUsers(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
 			return
 		}
-		utils.JSONResponse(w, users, 200)
+		utils.JSONResponse(w, users, http.StatusOK)
 	case http.MethodPost:
 		var user models.User
 		err := json.NewDecoder(r.Body).Decode(&user)
@@ -49,7 +49,12 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 	} else if len(params) == 2 {
 		switch r.Method {
 		case http.MethodGet:
-
+			user, err := models.GetUserByUserID(params[1])
+			if err != nil {
+				http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
+				return
+			}
+			utils.JSONResponse(w, user, http.StatusOK)
 		case http.MethodDelete:
 			utils.TestResponseOK(w, r)
 		default:
