@@ -3,6 +3,7 @@ package handlers
 import (
 	"RenomachiBack/models"
 	"RenomachiBack/utils"
+	"encoding/json"
 	"net/http"
 )
 
@@ -16,7 +17,19 @@ func HandleBuildings(w http.ResponseWriter, r *http.Request) {
 		}
 		utils.JSONResponse(w, buildings, http.StatusOK)
 	case http.MethodPost:
-		utils.TestResponseOK(w, r)
+		var building models.Building
+		err := json.NewDecoder(r.Body).Decode(&building)
+		if err != nil {
+			http.Error(w, "Failed to insert building: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		err = building.AddBuilding()
+		if err != nil {
+			http.Error(w, "Failed to insert building: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		utils.ResponseCreated(w, building)
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
