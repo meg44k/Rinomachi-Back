@@ -19,9 +19,13 @@ func TestResponseOK(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(response))
 }
-func ResponseCreated(w http.ResponseWriter, r *http.Request) {
-	response := fmt.Sprintf("%s requested!\n", r.URL.String())
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(response))
+
+func ResponseCreated(w http.ResponseWriter, user interface{}) {
+	response := map[string]interface{}{
+		"message": "User created successfully",
+		"user":    user, // 作成されたユーザー情報を返す
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated) // HTTPステータス201を設定
+	json.NewEncoder(w).Encode(response)
 }
