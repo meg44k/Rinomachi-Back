@@ -3,6 +3,7 @@ package handlers
 import (
 	"RenomachiBack/models"
 	"RenomachiBack/utils"
+	"encoding/json"
 	"net/http"
 )
 
@@ -17,7 +18,19 @@ func HandleUsers(w http.ResponseWriter, r *http.Request) {
 		}
 		utils.JSONResponse(w, users, 200)
 	case http.MethodPost:
-		utils.TestResponseOK(w, r)
+		var user models.User
+		err := json.NewDecoder(r.Body).Decode(&user)
+		if err != nil {
+			http.Error(w, "Failed to insert user: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		err = user.AddUser()
+		if err != nil {
+			http.Error(w, "Failed to insert user: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		utils.ResponseCreated(w, user)
 	default:
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
