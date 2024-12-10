@@ -10,6 +10,7 @@ import (
 func HandleUsers(w http.ResponseWriter, r *http.Request) {
 	utils.PrintRequest(r)
 	switch r.Method {
+	// GETメソッド
 	case http.MethodGet:
 		users, err := models.GetUsers()
 		if err != nil {
@@ -17,6 +18,7 @@ func HandleUsers(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		utils.JSONResponse(w, users, http.StatusOK)
+	// POSTメソッド
 	case http.MethodPost:
 		var user models.User
 		err := json.NewDecoder(r.Body).Decode(&user)
@@ -31,6 +33,7 @@ func HandleUsers(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		utils.ResponseCreated(w, user)
+	// 許可されていないメソッド
 	default:
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
@@ -48,6 +51,7 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 		return
 	} else if len(params) == 2 {
 		switch r.Method {
+		// GETメソッド
 		case http.MethodGet:
 			user, err := models.GetUser(params[1])
 			if err != nil {
@@ -55,6 +59,7 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			utils.JSONResponse(w, user, http.StatusOK)
+		// DELETEメソッド
 		case http.MethodDelete:
 			err := models.DeleteUser(params[1])
 			if err != nil {
@@ -62,6 +67,7 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			utils.ResponseDeleted(w, params[1])
+		// PUTメソッド
 		case http.MethodPut:
 			var user models.User
 			err := json.NewDecoder(r.Body).Decode(&user)
@@ -75,6 +81,7 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			utils.ResponseUpdated(w, user)
+		// 許可されていないメソッド
 		default:
 			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		}
@@ -82,8 +89,14 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 		if params[2] == "favorites" {
 			if len(params) < 4 {
 				switch r.Method {
+				// GETメソッド
 				case http.MethodGet:
-					utils.TestResponseOK(w, r)
+					favorites, err := models.GetFavorites(params[1])
+					if err != nil {
+						http.Error(w, "Failed to fetch favorites", http.StatusInternalServerError)
+						return
+					}
+					utils.JSONResponse(w, favorites, http.StatusOK)
 				case http.MethodPost:
 					utils.TestResponseOK(w, r)
 				default:
