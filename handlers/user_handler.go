@@ -160,7 +160,12 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 			} else if len(params) < 5 {
 				switch r.Method {
 				case http.MethodDelete:
-					utils.TestResponseOK(w, r)
+					err := models.DeleteHistory(params[1], params[3])
+					if err != nil {
+						http.Error(w, "Failed to delete history: "+err.Error(), http.StatusInternalServerError)
+						return
+					}
+					utils.ResponseDeleted(w, params[3])
 				default:
 					http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 				}
