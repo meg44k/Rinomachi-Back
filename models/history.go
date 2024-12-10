@@ -37,9 +37,9 @@ func (history *History) DeleteHistory() error {
 }
 
 // 履歴一覧を表示
-func GetHistories() ([]History, error) {
-	query := "SELECT * FROM histories"
-	rows, err := db.DB.Query(query)
+func GetHistories(user_id string) ([]History, error) {
+	query := "SELECT * FROM histories WHERE user_id = ?"
+	rows, err := db.DB.Query(query, user_id)
 	if err != nil {
 		return nil, err
 	}
