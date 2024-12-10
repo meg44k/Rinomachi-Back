@@ -41,8 +41,8 @@ func TestUserModel(t *testing.T) {
 			Password: "updated_password",
 			Email:    "updated_email@example.com",
 		}
-
-		err := user.UpdateUser()
+		user_id := "root"
+		err := models.UpdateUser(user, user_id)
 		if err != nil {
 			t.Fatalf("ユーザの編集に成功: %v", err)
 		}
@@ -52,11 +52,9 @@ func TestUserModel(t *testing.T) {
 
 	// 3. ユーザ削除テスト
 	t.Run("DeleteUser", func(t *testing.T) {
-		user := &models.User{
-			ID: 1, // 適宜、テスト環境に合わせたIDを設定
-		}
+		user_id := "root"
 
-		err := user.DeleteUser()
+		err := models.DeleteUser(user_id)
 		if err != nil {
 			t.Fatalf("ユーザの削除に失敗: %v", err)
 		}
