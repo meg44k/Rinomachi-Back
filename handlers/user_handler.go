@@ -4,7 +4,6 @@ import (
 	"RenomachiBack/models"
 	"RenomachiBack/utils"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -63,7 +62,19 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			utils.ResponseDeleted(w, params[1])
-			fmt.Println(err)
+		case http.MethodPut:
+			var user models.User
+			err := json.NewDecoder(r.Body).Decode(&user)
+			if err != nil {
+				http.Error(w, "Failed to insert user: "+err.Error(), http.StatusInternalServerError)
+				return
+			}
+			err = models.UpdateUser(&user, params[1])
+			if err != nil {
+				http.Error(w, "Failed to insert user: "+err.Error(), http.StatusInternalServerError)
+				return
+			}
+			utils.ResponseUpdated(w, user)
 		default:
 			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		}
