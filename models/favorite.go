@@ -26,9 +26,9 @@ func (favorite *Favorite) AddFavorite() error {
 }
 
 // お気に入りを削除
-func (favorite *Favorite) DeleteFavorite() error {
-	query := "DELETE FROM favorites WHERE id = ?"
-	_, err := db.DB.Exec(query, favorite.ID)
+func DeleteFavorite(user_id string, building_id string) error {
+	query := "DELETE FROM favorites WHERE user_id = ? AND building_id = ?"
+	_, err := db.DB.Exec(query, user_id, building_id)
 	return err
 }
 
