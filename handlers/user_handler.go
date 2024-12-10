@@ -132,8 +132,28 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 		} else if params[2] == "histories" {
 			if len(params) < 4 {
 				switch r.Method {
+				// GETメソッド
 				case http.MethodGet:
-					utils.TestResponseOK(w, r)
+					histories, err := models.GetHistories(params[1])
+					if err != nil {
+						http.Error(w, "Failed to fetch histories", http.StatusInternalServerError)
+						return
+					}
+					utils.JSONResponse(w, histories, http.StatusOK)
+				// POSTメソッド
+				case http.MethodPost:
+					var history models.History
+					err := json.NewDecoder(r.Body).Decode(&history)
+					if err != nil {
+						http.Error(w, "Failed to insert history: "+err.Error(), http.StatusInternalServerError)
+						return
+					}
+					err = history.AddHistory()
+					if err != nil {
+						http.Error(w, "Failed to insert history: "+err.Error(), http.StatusInternalServerError)
+						return
+					}
+					utils.ResponseCreated(w, history)
 				default:
 					http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 				}
