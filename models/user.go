@@ -38,9 +38,9 @@ func (user *User) UpdateUser() error {
 }
 
 // ユーザを削除
-func (user *User) DeleteUser() error {
+func DeleteUser(user_id string) error {
 	query := "DELETE FROM users WHERE id = ?"
-	_, err := db.DB.Exec(query, user.ID)
+	_, err := db.DB.Exec(query, user_id)
 	return err
 }
 
