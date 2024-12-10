@@ -18,7 +18,7 @@ type Building struct {
 	Transportation string  `json:"transportation"`
 }
 
-// ユーザを追加
+// 建物を追加
 func (building *Building) AddBuilding() error {
 	query := "INSERT INTO buildings (building_id, address, structure, floors, age, area, contract, description, is_available, price, favorites, transportation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	result, err := db.DB.Exec(query,
@@ -47,7 +47,7 @@ func (building *Building) AddBuilding() error {
 	return nil
 }
 
-// ユーザを編集
+// 建物を編集
 func (building *Building) UpdateBuilding() error {
 	query := "UPDATE buildings SET building_id = ?, address = ?, structure = ?, floors = ?, age = ?, area = ?, contract = ?, description = ?, is_available = ?, price = ?, favorites = ?, transportation = ? WHERE id = ?"
 	_, err := db.DB.Exec(query,
@@ -67,14 +67,14 @@ func (building *Building) UpdateBuilding() error {
 	return err
 }
 
-// ユーザを削除
+// 建物を削除
 func (building *Building) DeleteBuilding() error {
 	query := "DELETE FROM buildings WHERE id = ?"
 	_, err := db.DB.Exec(query, building.ID)
 	return err
 }
 
-// ユーザ一覧を表示
+// 建物一覧を表示
 func GetBuildings() ([]Building, error) {
 	query := "SELECT * FROM buildings"
 	rows, err := db.DB.Query(query)
