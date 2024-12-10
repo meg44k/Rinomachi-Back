@@ -65,7 +65,7 @@ func GetUsers() ([]User, error) {
 }
 
 // UIDによるユーザを取得
-func GetUserByUserID(user_id string) (*User, error) {
+func GetUser(user_id string) (*User, error) {
 	query := "SELECT id, user_id, user_name, password, email FROM users WHERE user_id = ?"
 	row := db.DB.QueryRow(query, user_id)
 

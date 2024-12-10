@@ -49,7 +49,7 @@ func HandleUser(w http.ResponseWriter, r *http.Request) {
 	} else if len(params) == 2 {
 		switch r.Method {
 		case http.MethodGet:
-			user, err := models.GetUserByUserID(params[1])
+			user, err := models.GetUser(params[1])
 			if err != nil {
 				http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
 				return
