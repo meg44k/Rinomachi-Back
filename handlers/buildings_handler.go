@@ -8,6 +8,7 @@ import (
 )
 
 func HandleBuildings(w http.ResponseWriter, r *http.Request) {
+	utils.PrintRequest(r)
 	switch r.Method {
 	case http.MethodGet:
 		buildings, err := models.GetBuildings()
@@ -36,6 +37,7 @@ func HandleBuildings(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleBuilding(w http.ResponseWriter, r *http.Request) {
+	utils.PrintRequest(r)
 	switch r.Method {
 	case http.MethodGet:
 		utils.TestResponseOK(w, r)
