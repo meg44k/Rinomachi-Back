@@ -73,4 +73,6 @@ Temporary Items
 *.xhtml
 
 memo.*
+
+.env
 # End of https://www.toptal.com/developers/gitignore/api/go,macos,web
