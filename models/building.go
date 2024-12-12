@@ -1,6 +1,9 @@
 package models
 
-import "RenomachiBack/db"
+import (
+	"RenomachiBack/db"
+	"database/sql"
+)
 
 type Building struct {
 	ID             int     `json:"id"`
@@ -105,4 +108,33 @@ func GetBuildings() ([]Building, error) {
 		buildings = append(buildings, building)
 	}
 	return buildings, nil
+}
+
+func GetBuilding(building_id string) (*Building, error) {
+	query := "SELECT * FROM buildings WHERE building_id = ?"
+	row := db.DB.QueryRow(query, building_id)
+
+	var building Building
+	err := row.Scan(
+		&building.ID,
+		&building.BID,
+		&building.Address,
+		&building.Structure,
+		&building.Floors,
+		&building.Age,
+		&building.Area,
+		&building.Contract,
+		&building.Description,
+		&building.IsAvailable,
+		&building.Price,
+		&building.Favorites,
+		&building.Transportation)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // 該当する建物がない場合
+		}
+		return nil, err // その他のエラー
+	}
+
+	return &building, nil
 }
