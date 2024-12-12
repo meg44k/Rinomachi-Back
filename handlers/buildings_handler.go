@@ -38,6 +38,7 @@ func HandleBuildings(w http.ResponseWriter, r *http.Request) {
 
 func HandleBuilding(w http.ResponseWriter, r *http.Request) {
 	utils.PrintRequest(r)
+
 	params := utils.GetRouteParams(r)
 	if len(params) < 2 {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
@@ -45,7 +46,12 @@ func HandleBuilding(w http.ResponseWriter, r *http.Request) {
 	} else if len(params) == 2 {
 		switch r.Method {
 		case http.MethodGet:
-			utils.TestResponseOK(w, r)
+			building, err := models.GetBuilding(params[1])
+			if err != nil {
+				http.Error(w, "Failed to fetch building", http.StatusInternalServerError)
+				return
+			}
+			utils.JSONResponse(w, building, http.StatusOK)
 		case http.MethodPost:
 			utils.TestResponseOK(w, r)
 		default:
