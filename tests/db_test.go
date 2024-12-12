@@ -141,10 +141,10 @@ func TestBuildingModel(t *testing.T) {
 	// 3. 建物削除テスト
 	t.Run("DeleteBuilding", func(t *testing.T) {
 		building := &models.Building{
-			ID: 2, // 適宜、テスト環境に合わせたIDを設定
+			BID: "root",
 		}
 
-		err := building.DeleteBuilding()
+		err := models.DeleteBuilding(building.BID)
 		if err != nil {
 			t.Fatalf("建物削除に失敗: %v", err)
 		}
@@ -195,7 +195,6 @@ func TestFavoriteModel(t *testing.T) {
 	// 2. 建物削除テスト
 	t.Run("DeleteFavorite", func(t *testing.T) {
 		favorite := &models.Favorite{
-			ID:  1, // 適宜、テスト環境に合わせたIDを設定
 			UID: "root",
 			BID: "root",
 		}
