@@ -3,9 +3,9 @@ package models
 import "RenomachiBack/db"
 
 type Favorite struct {
-	ID  int
-	UID string
-	BID string
+	ID  int    `json:"id"`
+	UID string `json:"uid"`
+	BID string `json:"bid"`
 }
 
 // お気に入りを追加
@@ -22,38 +22,26 @@ func (favorite *Favorite) AddFavorite() error {
 	}
 
 	favorite.ID = int(id)
+
+	fav_count, _ := GetFavoritesByBuildingID(favorite.BID)
+	query = "UPDATE buildings SET favorites = ? WHERE building_id = ?"
+	_, err = db.DB.Exec(query, fav_count, favorite.BID)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 // お気に入りを削除
-func (favorite *Favorite) DeleteFavorite() error {
-	query := "DELETE FROM favorites WHERE id = ?"
-	_, err := db.DB.Exec(query, favorite.ID)
+func DeleteFavorite(user_id string, building_id string) error {
+	query := "DELETE FROM favorites WHERE user_id = ? AND building_id = ?"
+	_, err := db.DB.Exec(query, user_id, building_id)
 	return err
 }
 
-// お気に入り一覧を表示
-func GetFavorites() ([]Favorite, error) {
-	query := "SELECT * FROM favorites"
-	rows, err := db.DB.Query(query)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var favorites []Favorite
-	for rows.Next() {
-		var favorite Favorite
-		if err := rows.Scan(&favorite.ID, &favorite.UID, &favorite.BID); err != nil {
-			return nil, err
-		}
-		favorites = append(favorites, favorite)
-	}
-	return favorites, nil
-}
-
 // UIDのお気に入り一覧を表示
-func GetFavoritesByUserID(user_id string) ([]Favorite, error) {
+func GetFavorites(user_id string) ([]Favorite, error) {
 	query := "SELECT * FROM favorites WHERE user_id = ?"
 	rows, err := db.DB.Query(query, user_id)
 	if err != nil {

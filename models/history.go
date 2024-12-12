@@ -6,10 +6,10 @@ import (
 )
 
 type History struct {
-	ID   int
-	UID  string
-	BID  string
-	Time time.Time
+	ID   int       `json:"id"`
+	UID  string    `json:"uid"`
+	BID  string    `json:"bid"`
+	Time time.Time `json:"time"`
 }
 
 // 履歴を追加
@@ -30,16 +30,16 @@ func (history *History) AddHistory() error {
 }
 
 // 履歴を削除
-func (history *History) DeleteHistory() error {
-	query := "DELETE FROM histories WHERE id = ?"
-	_, err := db.DB.Exec(query, history.ID)
+func DeleteHistory(user_id string, building_id string) error {
+	query := "DELETE FROM histories WHERE user_id = ? AND building_id"
+	_, err := db.DB.Exec(query, user_id, building_id)
 	return err
 }
 
 // 履歴一覧を表示
-func GetHistories() ([]History, error) {
-	query := "SELECT * FROM histories"
-	rows, err := db.DB.Query(query)
+func GetHistories(user_id string) ([]History, error) {
+	query := "SELECT * FROM histories WHERE user_id = ?"
+	rows, err := db.DB.Query(query, user_id)
 	if err != nil {
 		return nil, err
 	}

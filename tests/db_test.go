@@ -41,8 +41,8 @@ func TestUserModel(t *testing.T) {
 			Password: "updated_password",
 			Email:    "updated_email@example.com",
 		}
-
-		err := user.UpdateUser()
+		user_id := "root"
+		err := models.UpdateUser(user, user_id)
 		if err != nil {
 			t.Fatalf("ユーザの編集に成功: %v", err)
 		}
@@ -52,11 +52,9 @@ func TestUserModel(t *testing.T) {
 
 	// 3. ユーザ削除テスト
 	t.Run("DeleteUser", func(t *testing.T) {
-		user := &models.User{
-			ID: 1, // 適宜、テスト環境に合わせたIDを設定
-		}
+		user_id := "root"
 
-		err := user.DeleteUser()
+		err := models.DeleteUser(user_id)
 		if err != nil {
 			t.Fatalf("ユーザの削除に失敗: %v", err)
 		}
@@ -143,10 +141,10 @@ func TestBuildingModel(t *testing.T) {
 	// 3. 建物削除テスト
 	t.Run("DeleteBuilding", func(t *testing.T) {
 		building := &models.Building{
-			ID: 2, // 適宜、テスト環境に合わせたIDを設定
+			BID: "root",
 		}
 
-		err := building.DeleteBuilding()
+		err := models.DeleteBuilding(building.BID)
 		if err != nil {
 			t.Fatalf("建物削除に失敗: %v", err)
 		}
@@ -197,10 +195,11 @@ func TestFavoriteModel(t *testing.T) {
 	// 2. 建物削除テスト
 	t.Run("DeleteFavorite", func(t *testing.T) {
 		favorite := &models.Favorite{
-			ID: 1, // 適宜、テスト環境に合わせたIDを設定
+			UID: "root",
+			BID: "root",
 		}
 
-		err := favorite.DeleteFavorite()
+		err := models.DeleteFavorite(favorite.UID, favorite.BID)
 		if err != nil {
 			t.Fatalf("お気に入り削除に失敗: %v", err)
 		}
@@ -210,7 +209,8 @@ func TestFavoriteModel(t *testing.T) {
 
 	// 3. お気に入り覧取得テスト
 	t.Run("GetFavorites", func(t *testing.T) {
-		favorites, err := models.GetFavorites()
+		user_id := "root"
+		favorites, err := models.GetFavorites(user_id)
 		if err != nil {
 			t.Fatalf("お気に入り一覧の取得に失敗: %v", err)
 		}
@@ -222,7 +222,7 @@ func TestFavoriteModel(t *testing.T) {
 	})
 
 	t.Run("GetFavoritesByUser", func(t *testing.T) {
-		favorites, err := models.GetFavoritesByUserID("root")
+		favorites, err := models.GetFavorites("root")
 		if err != nil {
 			t.Fatalf("ユーザIDによるお気に入り一覧の取得に失敗: %v", err)
 		}
@@ -274,10 +274,12 @@ func TestHistoryModel(t *testing.T) {
 	// 2. 履歴削除テスト
 	t.Run("DeleteHistory", func(t *testing.T) {
 		history := &models.History{
-			ID: 1, // 適宜、テスト環境に合わせたIDを設定
+			ID:  1, // 適宜、テスト環境に合わせたIDを設定
+			UID: "root",
+			BID: "root",
 		}
 
-		err := history.DeleteHistory()
+		err := models.DeleteHistory(history.UID, history.BID)
 		if err != nil {
 			t.Fatalf("履歴削除に失敗: %v", err)
 		}
@@ -287,7 +289,8 @@ func TestHistoryModel(t *testing.T) {
 
 	// 3. 履歴一覧取得テスト
 	t.Run("GetHistories", func(t *testing.T) {
-		histories, err := models.GetHistories()
+		user_id := "root"
+		histories, err := models.GetHistories(user_id)
 		if err != nil {
 			t.Fatalf("履歴一覧の取得に失敗: %v", err)
 		}
