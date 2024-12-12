@@ -72,7 +72,7 @@ func (building *Building) UpdateBuilding() error {
 
 // 建物を削除
 func DeleteBuilding(building_id string) error {
-	query := "DELETE FROM buildings WHERE id = ?"
+	query := "DELETE FROM buildings WHERE building_id = ?"
 	_, err := db.DB.Exec(query, building_id)
 	return err
 }
