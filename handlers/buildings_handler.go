@@ -52,8 +52,8 @@ func HandleBuilding(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			utils.JSONResponse(w, building, http.StatusOK)
-		case http.MethodPost:
-			utils.TestResponseOK(w, r)
+		case http.MethodDelete:
+
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
