@@ -22,6 +22,14 @@ func (favorite *Favorite) AddFavorite() error {
 	}
 
 	favorite.ID = int(id)
+
+	fav_count, _ := GetFavoritesByBuildingID(favorite.BID)
+	query = "UPDATE buildings SET favorites = ? WHERE building_id = ?"
+	_, err = db.DB.Exec(query, fav_count, favorite.BID)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
