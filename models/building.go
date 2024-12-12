@@ -2,6 +2,7 @@ package models
 
 import (
 	"RenomachiBack/db"
+	"RenomachiBack/utils"
 	"database/sql"
 )
 
@@ -23,9 +24,11 @@ type Building struct {
 
 // 建物を追加
 func (building *Building) AddBuilding() error {
+	BID := utils.GenerateBuildingID()
+
 	query := "INSERT INTO buildings (building_id, address, structure, floors, age, area, contract, description, is_available, price, favorites, transportation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	result, err := db.DB.Exec(query,
-		building.BID,
+		BID,
 		building.Address,
 		building.Structure,
 		building.Floors,
