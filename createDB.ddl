@@ -19,7 +19,7 @@ CREATE TABLE buildings (
     description TEXT DEFAULT NULL,    -- 建物説明（テキスト型、NULL許容）
     is_available BOOLEAN NOT NULL DEFAULT TRUE, -- 募集中かどうか（デフォルトはTRUE）
     price INT DEFAULT NULL            -- 値段（NULL許容）
-    favorites INT DEFAULT NULL, --お気に入り数
+    favorites INT DEFAULT 0 NOTNULL, --お気に入り数
     transportation TEXT DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
