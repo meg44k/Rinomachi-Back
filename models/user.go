@@ -2,6 +2,7 @@ package models
 
 import (
 	"RenomachiBack/db"
+	"RenomachiBack/utils"
 	"database/sql"
 )
 
@@ -15,8 +16,11 @@ type User struct {
 
 // ユーザを追加
 func (user *User) AddUser() error {
+
+	UID := utils.GenerateUserID()
+
 	query := "INSERT INTO users (user_id, user_name, password, email) VALUES (?, ?, ?, ?)"
-	result, err := db.DB.Exec(query, user.UID, user.Name, user.Password, user.Email)
+	result, err := db.DB.Exec(query, UID, user.Name, user.Password, user.Email)
 	if err != nil {
 		return err
 	}
