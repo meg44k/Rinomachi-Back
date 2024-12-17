@@ -4,14 +4,17 @@ import (
 	"RenomachiBack/db"
 	"RenomachiBack/utils"
 	"database/sql"
+	"time"
 )
 
 type User struct {
-	ID       int    `json:"id"`
-	UID      string `json:"uid"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
+	ID        int       `json:"id"`
+	UID       string    `json:"uid"`
+	Name      string    `json:"name"`
+	Password  string    `json:"password"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // ユーザを追加
@@ -60,7 +63,7 @@ func GetUsers() ([]User, error) {
 	var users []User
 	for rows.Next() {
 		var user User
-		if err := rows.Scan(&user.ID, &user.UID, &user.Name, &user.Password, &user.Email); err != nil {
+		if err := rows.Scan(&user.ID, &user.UID, &user.Name, &user.Password, &user.Email, &user.CreatedAt, &user.UpdatedAt); err != nil {
 			return nil, err
 		}
 		users = append(users, user)
@@ -74,7 +77,7 @@ func GetUser(user_id string) (*User, error) {
 	row := db.DB.QueryRow(query, user_id)
 
 	var user User
-	err := row.Scan(&user.ID, &user.UID, &user.Name, &user.Password, &user.Email)
+	err := row.Scan(&user.ID, &user.UID, &user.Name, &user.Password, &user.Email, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil // 該当するユーザーがいない場合

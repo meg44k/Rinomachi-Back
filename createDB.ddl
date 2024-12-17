@@ -5,6 +5,8 @@ CREATE TABLE users (
     user_name VARCHAR(50) NOT NULL,        -- ユーザ名（最大50文字）
     password VARCHAR(255) NOT NULL,        -- パスワード
     email VARCHAR(255) NOT NULL UNIQUE     -- メールアドレス（ユニーク制約付き）
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- デフォルトで現在時刻を設定
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- データ変更時に自動更新
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE buildings (
@@ -21,12 +23,16 @@ CREATE TABLE buildings (
     price INT DEFAULT NULL            -- 値段（NULL許容）
     favorites INT DEFAULT 0 NOTNULL, --お気に入り数
     transportation TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- デフォルトで現在時刻を設定
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- データ変更時に自動更新
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE favorites (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
     user_id VARCHAR(255) NOT NULL,         -- ユーザID
     building_id VARCHAR(255) NOT NULL,     -- 建物固有のID
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- デフォルトで現在時刻を設定
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- データ変更時に自動更新
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE, -- 外部キー: ユーザテーブル
     FOREIGN KEY (building_id) REFERENCES buildings(building_id) ON DELETE CASCADE ON UPDATE CASCADE -- 外部キー: 空き家テーブル
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -35,7 +41,8 @@ CREATE TABLE histories (
     id INT AUTO_INCREMENT PRIMARY KEY,     -- インデックス、主キー、自動増分
     user_id VARCHAR(255) NOT NULL,         -- ユーザID
     building_id VARCHAR(255) NOT NULL,     -- 建物固有のID
-    time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 追加・変更時間
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- デフォルトで現在時刻を設定
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- データ変更時に自動更新
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE, -- 外部キー: ユーザテーブル
     FOREIGN KEY (building_id) REFERENCES buildings(building_id) ON DELETE CASCADE ON UPDATE CASCADE -- 外部キー: 空き家テーブル
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

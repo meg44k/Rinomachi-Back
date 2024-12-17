@@ -4,22 +4,25 @@ import (
 	"RenomachiBack/db"
 	"RenomachiBack/utils"
 	"database/sql"
+	"time"
 )
 
 type Building struct {
-	ID             int     `json:"id"`
-	BID            string  `json:"bid"`
-	Address        string  `json:"address"`
-	Structure      string  `json:"structure"`
-	Floors         int     `json:"floors"`
-	Age            int     `json:"age"`
-	Area           float64 `json:"area"`
-	Contract       string  `json:"contract"`
-	Description    string  `json:"discription"`
-	IsAvailable    bool    `json:"isAvailable"`
-	Price          int     `json:"price"`
-	Favorites      int     `json:"favorites"`
-	Transportation string  `json:"transportation"`
+	ID             int       `json:"id"`
+	BID            string    `json:"bid"`
+	Address        string    `json:"address"`
+	Structure      string    `json:"structure"`
+	Floors         int       `json:"floors"`
+	Age            int       `json:"age"`
+	Area           float64   `json:"area"`
+	Contract       string    `json:"contract"`
+	Description    string    `json:"discription"`
+	IsAvailable    bool      `json:"isAvailable"`
+	Price          int       `json:"price"`
+	Favorites      int       `json:"favorites"`
+	Transportation string    `json:"transportation"`
+	CreatedAt      time.Time `json:"createdAt"`
+	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
 // 建物を追加
@@ -105,7 +108,9 @@ func GetBuildings() ([]Building, error) {
 			&building.IsAvailable,
 			&building.Price,
 			&building.Favorites,
-			&building.Transportation); err != nil {
+			&building.Transportation,
+			&building.CreatedAt,
+			&building.UpdatedAt); err != nil {
 			return nil, err
 		}
 		buildings = append(buildings, building)
@@ -131,7 +136,9 @@ func GetBuilding(building_id string) (*Building, error) {
 		&building.IsAvailable,
 		&building.Price,
 		&building.Favorites,
-		&building.Transportation)
+		&building.Transportation,
+		&building.CreatedAt,
+		&building.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil // 該当する建物がない場合
