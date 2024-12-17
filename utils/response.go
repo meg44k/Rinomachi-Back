@@ -7,10 +7,10 @@ import (
 )
 
 // JSONデータをレスポンス
-func JSONResponse(w http.ResponseWriter, data interface{}, status int) {
+func JSONResponse(w http.ResponseWriter, payload interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(payload)
 }
 
 func TestResponseOK(w http.ResponseWriter, r *http.Request) {
