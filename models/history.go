@@ -6,10 +6,11 @@ import (
 )
 
 type History struct {
-	ID   int       `json:"id"`
-	UID  string    `json:"uid"`
-	BID  string    `json:"bid"`
-	Time time.Time `json:"time"`
+	ID        int       `json:"id"`
+	UID       string    `json:"uid"`
+	BID       string    `json:"bid"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // 履歴を追加
@@ -48,7 +49,7 @@ func GetHistories(user_id string) ([]History, error) {
 	var histories []History
 	for rows.Next() {
 		var history History
-		if err := rows.Scan(&history.ID, &history.UID, &history.BID, &history.Time); err != nil {
+		if err := rows.Scan(&history.ID, &history.UID, &history.BID, &history.CreatedAt, &history.UpdatedAt); err != nil {
 			return nil, err
 		}
 		histories = append(histories, history)
@@ -68,7 +69,7 @@ func GetHistoriesByUserID(user_id string) ([]History, error) {
 	var histories []History
 	for rows.Next() {
 		var history History
-		if err := rows.Scan(&history.ID, &history.UID, &history.BID, &history.Time); err != nil {
+		if err := rows.Scan(&history.ID, &history.UID, &history.BID, &history.CreatedAt, &history.UpdatedAt); err != nil {
 			return nil, err
 		}
 		histories = append(histories, history)

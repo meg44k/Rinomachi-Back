@@ -1,11 +1,16 @@
 package models
 
-import "RenomachiBack/db"
+import (
+	"RenomachiBack/db"
+	"time"
+)
 
 type Favorite struct {
-	ID  int    `json:"id"`
-	UID string `json:"uid"`
-	BID string `json:"bid"`
+	ID        int       `json:"id"`
+	UID       string    `json:"uid"`
+	BID       string    `json:"bid"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // お気に入りを追加
@@ -52,7 +57,7 @@ func GetFavorites(user_id string) ([]Favorite, error) {
 	var favorites []Favorite
 	for rows.Next() {
 		var favorite Favorite
-		if err := rows.Scan(&favorite.ID, &favorite.UID, &favorite.BID); err != nil {
+		if err := rows.Scan(&favorite.ID, &favorite.UID, &favorite.BID, &favorite.CreatedAt, &favorite.UpdatedAt); err != nil {
 			return nil, err
 		}
 		favorites = append(favorites, favorite)
