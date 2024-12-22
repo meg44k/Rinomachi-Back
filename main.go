@@ -3,6 +3,7 @@ package main
 import (
 	"RenomachiBack/db"
 	"RenomachiBack/handlers"
+	"RenomachiBack/utils"
 	"fmt"
 	"net/http"
 )
@@ -10,10 +11,10 @@ import (
 func main() {
 	db.InitDB()
 
-	http.HandleFunc("/users", handlers.HandleUsers)
-	http.HandleFunc("/users/", handlers.HandleUser)
-	http.HandleFunc("/buildings", handlers.HandleBuildings)
-	http.HandleFunc("/buildings/", handlers.HandleBuilding)
+	http.Handle("/users", utils.EnableCORS(http.HandlerFunc(handlers.HandleUsers)))
+	http.Handle("/users/", utils.EnableCORS(http.HandlerFunc(handlers.HandleUser)))
+	http.Handle("/buildings", utils.EnableCORS(http.HandlerFunc(handlers.HandleBuildings)))
+	http.Handle("/buildings/", utils.EnableCORS(http.HandlerFunc(handlers.HandleBuilding)))
 
 	fmt.Println("Server is running on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
